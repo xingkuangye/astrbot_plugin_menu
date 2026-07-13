@@ -11,7 +11,7 @@ class MyPlugin(Star):
         super().__init__(context)
 
     @filter.command("get_origin_message")
-    async def get_origin_message(self, event: AstrMessageEvent, message_id: int):
+    async def get_origin_message(self, event: AstrMessageEvent, message_id: str):
         """[测试]获取 menu 原始消息内容"""
         if not self.beta_config:
             return
@@ -20,7 +20,7 @@ class MyPlugin(Star):
         if not "menu" in message_str:
             return
 
-        message = await self.get_kv_data(f"menu.{message_id}originmessage", None)
+        message = await self.get_kv_data(f"{message_id}originmessage", None)
         if message is None:
             yield event.plain_result(f"未找到原始消息内容（ID: {message_id}）。")
             return
