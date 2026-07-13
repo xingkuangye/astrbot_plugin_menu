@@ -10,6 +10,26 @@ class MyPlugin(Star):
         self.beta_config = config.get("beta_config", False)
         super().__init__(context)
 
+    @filter.command("get_origin_message")
+    async def get_origin_message(self, event: AstrMessageEvent, message_id: int):
+        """[测试]获取 menu 原始消息内容"""
+        if not self.beta_config:
+            return
+
+        message_str = event.message_str
+        if not "menu" in message_str:
+            return
+
+        message = await self.get_kv_data(f"menu.{message_id}originmessage", None)
+        if message is None:
+            yield event.plain_result(f"未找到原始消息内容（ID: {message_id}）。")
+            return
+
+        chain = event.plain_result(f"原始消息内容（ID: {message_id}）：\n\n{message}")
+        # 再手动关掉 markdown
+        chain.use_markdown_ = False
+        yield chain
+
     # 处理菜单指令
     # @param event AstrMessageEvent 消息事件对象
     # @return MessageEventResult 消息事件处理结果
@@ -42,7 +62,6 @@ class MyPlugin(Star):
         if self.beta_config:
             msg_id = await self.get_kv_data("now msg_id", 0) + 1
             await self.put_kv_data("now msg_id", msg_id)
-            await self.put_kv_data(str(msg_id) + "originmessage", message)
             message = message + f"""***
 > 您当前正在使用测试版本的AL_1S机器人
 > 如果您遇到了问题，请点击<qqbot-cmd-input text="/反馈 menu.{msg_id} [在这里填写你想要反馈的内容]" show="反馈" reference="true" />
@@ -50,7 +69,7 @@ class MyPlugin(Star):
 > 感谢您的支持~
 > _测试ID：{openid}_
 """
-            
+            await self.put_kv_data(f"menu.{msg_id}originmessage", message)
         
         # 构造消息 payload，用于发送带按钮的 Markdown 消息 -> payload
         payload = {
