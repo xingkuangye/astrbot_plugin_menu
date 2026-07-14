@@ -49,9 +49,14 @@ class MyPlugin(Star):
 
 
         # 组装 Markdown 消息 -> message
-        message = f"""## ✨邦邦卡邦✨
+        message = f"""[ ](mqqapi://markdown/node?nodeType=replace&nodeID=quoteArea&state=start&text=&index=&itemsPerRow=&itemsNum=)
+[ ](mqqapi://markdown/node?nodeType=quoteArea&nodeID=quoteArea&state=start&text=AL_1S由雨云提供云计算服务)
+## ✨邦邦卡邦✨
 ***这里是AL_1S的功能菜单~***
 ![img #480px #270px]({imgUrl})
+👉**新功能**👈
+<qqbot-cmd-input text="/群友老婆" show="🧑‍❤️‍👩随机抽取群友老婆"/>
+<qqbot-cmd-input text="/今天吃什么" show="🍕今天吃什么"/>
 | <qqbot-cmd-input text="/心奈唱歌" show="🎶心奈唱歌"/> | <qqbot-cmd-input text="/今日运势" show=" 🔮今日运势"/> |
 | --- | --- |
 | <qqbot-cmd-input text="/抽漫画" show="🌈随机漫画"/> | <qqbot-cmd-input text="/攻略 [填写你需要查询的学生名]" show="🔍角色攻略"/> |
