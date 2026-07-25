@@ -51,30 +51,29 @@ class MyPlugin(Star):
 
             # 组装 Markdown 消息 -> message
             message = f"""[ ](mqqapi://markdown/node?nodeType=replace&nodeID=quoteArea&state=start&text=&index=&itemsPerRow=&itemsNum=)
-    [ ](mqqapi://markdown/node?nodeType=quoteArea&nodeID=quoteArea&state=start&text=AL_1S由雨云提供云计算服务)
-    ## ✨邦邦卡邦✨
-    ***这里是AL_1S的功能菜单~***
-    [![img #480px #270px]({imgUrl})](https://www.rainyun.com/MTAzNDk2Nw==_?s=headImg)
-    👉**新功能**👈
-    <qqbot-cmd-input text="/群友老婆" show="🧑‍❤️‍👩随机抽取群友老婆"/>
-    <qqbot-cmd-input text="/今天吃什么" show="🍕今天吃什么"/>
-    | <qqbot-cmd-input text="/心奈唱歌" show="🎶心奈唱歌"/> | <qqbot-cmd-input text="/今日运势" show=" 🔮今日运势"/> |
-    | --- | --- |
-    | <qqbot-cmd-input text="/抽漫画" show="🌈随机漫画"/> | <qqbot-cmd-input text="/攻略 [填写你需要查询的学生名]" show="🔍角色攻略"/> |
-    | <qqbot-cmd-input text="/好感" show="❣️好感计算"/> | <qqbot-cmd-input text="/抽卡" show="📒抽卡模拟"/> |
-    | <qqbot-cmd-input text="/国际服千里眼" show="👀国际千里"/> | <qqbot-cmd-input text="/国服千里眼" show="👀国服千里"/> |
-    | <qqbot-cmd-input text="/天气" show="☀天气查询"/> | <qqbot-cmd-input text="/ba转生" show="✨BA转生"/> |"""
+[ ](mqqapi://markdown/node?nodeType=quoteArea&nodeID=quoteArea&state=start&text=AL_1S由雨云提供云计算服务)
+## ✨邦邦卡邦✨
+***这里是AL_1S的功能菜单~***
+[![img #480px #270px]({imgUrl})](https://www.rainyun.com/MTAzNDk2Nw==_?s=headImg)
+👉**新功能**👈
+<qqbot-cmd-input text="/群友老婆" show="🧑‍❤️‍👩随机抽取群友老婆"/>
+<qqbot-cmd-input text="/今天吃什么" show="🍕今天吃什么"/>
+| <qqbot-cmd-input text="/心奈唱歌" show="🎶心奈唱歌"/> | <qqbot-cmd-input text="/今日运势" show=" 🔮今日运势"/> |
+| --- | --- |
+| <qqbot-cmd-input text="/抽漫画" show="🌈随机漫画"/> | <qqbot-cmd-input text="/攻略 [填写你需要查询的学生名]" show="🔍角色攻略"/> |
+| <qqbot-cmd-input text="/好感" show="❣️好感计算"/> | <qqbot-cmd-input text="/抽卡" show="📒抽卡模拟"/> |
+| <qqbot-cmd-input text="/国际服千里眼" show="👀国际千里"/> | <qqbot-cmd-input text="/国服千里眼" show="👀国服千里"/> |
+| <qqbot-cmd-input text="/天气" show="☀天气查询"/> | <qqbot-cmd-input text="/ba转生" show="✨BA转生"/> |"""
             # 如果开启了beta测试模式，则在菜单尾部添加测试模式提醒和举报/反馈/版本说明按钮及测试ID。
             if self.beta_config:
                 msg_id = await self.get_kv_data("now msg_id", 0) + 1
                 await self.put_kv_data("now msg_id", msg_id)
                 message = message + f"""***
-    > 您当前正在使用测试版本的AL_1S机器人
-    > 如果您遇到了问题，请点击<qqbot-cmd-input text="/反馈 menu.{msg_id} [在这里填写你想要反馈的内容]" show="反馈" reference="true" />
-    > 如果您看到了不良信息，请点击<qqbot-cmd-input text="/举报 menu.{msg_id} [在这里填写你想要举报的原因]" show="举报" reference="true" />
-    > 感谢您的支持~
-    > _测试ID：{openid}_
-    """
+> 您当前正在使用测试版本的AL_1S机器人
+> 如果您遇到了问题，请点击<qqbot-cmd-input text="/反馈 menu.{msg_id} [在这里填写你想要反馈的内容]" show="反馈" reference="true" />
+> 如果您看到了不良信息，请点击<qqbot-cmd-input text="/举报 menu.{msg_id} [在这里填写你想要举报的原因]" show="举报" reference="true" />
+> 感谢您的支持~
+> _测试ID：{openid}_"""
                 await self.put_kv_data(f"menu.{msg_id}originmessage", message)
             
             # 构造消息 payload，用于发送带按钮的 Markdown 消息 -> payload
