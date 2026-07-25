@@ -10,24 +10,34 @@ class MyPlugin(Star):
         self.beta_config = config.get("beta_config", False)
         super().__init__(context)
 
+    # 处理获取原始消息内容的指令
+    # @param event AstrMessageEvent 消息事件对象
+    # @param message_id str 消息ID
+    # @return MessageEventResult 消息事件处理结果
     @filter.command("get_origin_message")
     async def get_origin_message(self, event: AstrMessageEvent, message_id: str):
         """[测试]获取 menu 原始消息内容"""
+        # 如果没有开启测试模式，则直接返回，不处理该指令
         if not self.beta_config:
             return
 
+        # 获取消息内容 -> message_str
         message_str = event.message_str
         if not "menu" in message_str:
             return
 
+        # 获取原始消息内容 -> message
         message = await self.get_kv_data(f"{message_id}originmessage", None)
         if message is None:
             yield event.plain_result(f"未找到原始消息内容（ID: {message_id}）。")
             return
 
+        # 构造消息链，显示原始消息内容，并关闭 Markdown -> chain
         chain = event.plain_result(f"原始消息内容（ID: {message_id}）：\n\n{message}")
         # 再手动关掉 markdown
         chain.use_markdown_ = False
+
+        # 返回消息链
         yield chain
 
     # 处理菜单指令
@@ -63,7 +73,8 @@ class MyPlugin(Star):
 | <qqbot-cmd-input text="/好感" show="❣️好感计算"/> | <qqbot-cmd-input text="/抽卡" show="📒抽卡模拟"/> |
 | <qqbot-cmd-input text="/国际服千里眼" show="👀国际千里"/> | <qqbot-cmd-input text="/国服千里眼" show="👀国服千里"/> |
 | <qqbot-cmd-input text="/天气" show="☀天气查询"/> | <qqbot-cmd-input text="/ba转生" show="✨BA转生"/> |"""
-            # 如果开启了beta测试模式，则在菜单尾部添加测试模式提醒和举报/反馈/版本说明按钮及测试ID。
+            
+            # 如果开启了beta测试模式，则在菜单尾部添加测试模式提醒和举报/反馈/版本说明按钮及测试ID -> message
             if self.beta_config:
                 msg_id = await self.get_kv_data("now msg_id", 0) + 1
                 await self.put_kv_data("now msg_id", msg_id)
@@ -190,4 +201,4 @@ class MyPlugin(Star):
                 )
         except Exception as e:
             logger.error(f"菜单指令处理异常：{e}")
-            yield event.plain_result(f"爱丽丝出现了错误，请稍后再试。\n> 错误已自动反馈！")
+            yield event.plain_result(f"爱丽丝出现了错误，请稍后再试。\n> 错误已自动反馈！\n***\n> 错误信息：{e}")
