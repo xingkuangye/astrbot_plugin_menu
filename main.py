@@ -50,9 +50,7 @@ class MyPlugin(Star):
 
 
             # 组装 Markdown 消息 -> message
-            message = f"""[ ](mqqapi://markdown/node?nodeType=replace&nodeID=quoteArea&state=start&text=&index=&itemsPerRow=&itemsNum=)
-[ ](mqqapi://markdown/node?nodeType=quoteArea&nodeID=quoteArea&state=start&text=AL_1S由雨云提供云计算服务)
-## ✨邦邦卡邦✨
+            message = f"""## ✨邦邦卡邦✨
 ***这里是AL_1S的功能菜单~***
 [![img #480px #270px]({imgUrl})](https://www.rainyun.com/MTAzNDk2Nw==_?s=headImg)
 👉**新功能**👈
